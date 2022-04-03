@@ -2,7 +2,7 @@ import argparse
 import re
 from typing import List, Tuple
 
-canto_unique = re.compile(r'[嘅嗰啲咗佢喺咁噉乜冇啩哋畀嚟諗乜嘢閪撚𨳍瞓]|屋企')
+canto_unique = re.compile(r'[嘅嗰啲咗佢喺咁噉乜冇啩哋畀嚟諗乜嘢閪撚𨳍瞓]|屋企|邊度|而家')
 mando_unique = re.compile(r'[這哪您們唄]|那些|那裏')
 mando_feature = re.compile(r'[那是的他她吧了沒不在麼么些]')
 mando_loan = re.compile(r'亞利桑那|剎那|那不勒斯|支那|是日|是次|是非|利是|唯命是從|頭頭是道|似是而非|\\\
