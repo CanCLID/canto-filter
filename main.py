@@ -2,21 +2,26 @@ import argparse
 import re
 from typing import List, Tuple
 
-canto_unique = re.compile(r'[嘅嗰啲咗佢喺咁噉冇啩哋畀嚟諗乜嘢閪撚𨳍瞓]|屋企|邊度|而家|依家|琴日|尋日')
-mando_unique = re.compile(r'[這哪您們唄]|那[個些裏裡邊天樣麼么兒]')
-mando_feature = re.compile(r'[那是的他她吧了沒不在麼么些]')
-mando_loan = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦那|印第安那|那不勒斯|支那|是日|是次|是非|利是|唯命是從|頭頭是道|似是而非|\\\
-        自以為是|俯拾皆是|撩是鬥非|莫衷一是|是但|是旦|大吉利是|目的|紅的|綠的|藍的|的士|波羅的海|的確|眾矢之的|些微|些少|些小|些許|\\\
-        淹沒|沉沒|沒收|湮沒|埋沒|沒落|了結|未了|了無|不了了之|了斷|了當|了然|了哥|不過|不滿|不如|不妨|\\\
-        不俗|不宜|不僅|不必|不利|不當|不死|不果|不一|迫不及待|不足|意想不到|不忠|不同|不絕|不斷|不良|不外乎|\\\
-        不妙|他信|他人|他加祿|他國|他山之石|他日|他殺|他鄉|其他|利他|排他|無他|維他|馬耳他|在場|酒吧|貼吧|\\\
-        網吧|水吧|吧台')
+canto_unique = re.compile(
+    r'[嘅嗰啲咗佢喺咁噉冇啩哋畀嚟諗乜嘢閪撚𨳍瞓睇㗎]|唔[係得會好識]|點[樣會做得]|[琴尋]日|[而依]家|[真唔就]係|屋企|邊度')
+mando_unique = re.compile(r'[這哪您們唄]|還[是好有]')
+mando_feature = re.compile(r'[那是的他她吧沒不在麼么些卻]')
+mando_loan = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦那|印第安那|那不勒斯|支那|' +
+                        r'是日|是次|是非|利是|唯命是從|頭頭是道|似是而非|自以為是|俯拾皆是|撩是鬥非|莫衷一是|是但|是旦|大吉利是|' +
+                        r'目的|紅的|綠的|藍的|的士|波羅的海|的確|眾矢之的|' +
+                        r'些微|些少|些小|些許|' +
+                        r'淹沒|沉沒|沒收|湮沒|埋沒|沒落|' +
+                        r'不過|不滿|不如|不妨|不俗|不宜|不僅|不必|不利|不當|不死|不果|不一|迫不及待|不足|意想不到|不忠|不同|不絕|不斷|不良|不外乎|不妙|' +
+                        r'他信|他人|他加祿|他國|他山之石|他日|他殺|他鄉|其他|利他|排他|無他|維他|馬耳他|' +
+                        r'在場|實在|在世|在讀|在位|在於|在編|在此|' +
+                        r'酒吧|貼吧|網吧|水吧|吧台|' +
+                        r'退卻')
 
 
-def is_loan(fs: str, loan_spans: List[Tuple]) -> bool:
+def is_within_loan_span(feature_span: str, loan_spans: List[Tuple]) -> bool:
     # 判斷一個官話特徵係唔係借詞。如果佢嘅位置喺某個借詞區間，就係借詞
     for ls in loan_spans:
-        if fs[0] >= ls[0] and fs[1] <= ls[1]:
+        if feature_span[0] >= ls[0] and feature_span[1] <= ls[1]:
             return True
     return False
 
@@ -29,8 +34,8 @@ def is_all_loan(s: str) -> bool:
     loan_spans = [m.span() for m in mando_loans]
 
     # 如果所有官話特徵都喺借詞區間，噉就全部都係借詞
-    for fs in feature_spans:
-        if not is_loan(fs, loan_spans):
+    for feature_span in feature_spans:
+        if not is_within_loan_span(feature_span, loan_spans):
             return False
     return True
 
