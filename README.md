@@ -11,6 +11,8 @@
 
 分類方法係官話同粵語嘅特徵字詞識別。如果同時含有官話同粵語特徵詞彙就算官粵混雜，如果唔含有任何特徵，就算冇特徵中性文本。
 
+注意：呢隻分類器默認所有輸入文本都係傳統漢字。如果要分類簡化字文本，要將佢哋轉化成傳統漢字先。推薦使用 [OpenCC](https://github.com/BYVoid/OpenCC)嚟轉換。
+
 ## 用法
 
 首先要有一個輸入文檔，例如`input.txt`，入面每一行係一個句子，然後運行下面命令
@@ -31,6 +33,8 @@ This is a text classifier for Cantonese, very for filtering Cantonese text corpu
 1. `neutral`：No feature Chinese text, contains neither Cantonese nor Mandarin feature words. Such sentences can be used for both Cantonese and Mandarin text corpus. E.g. 去學校讀書
 
 The classifier is rule-based, by detecting Mandarin and Cantonese feature characters and words. If an sentence contains both Cantonese and Mandarin feature words, the sentence is a mixed-Cantonese-Mandarin. If it contains neither features, it is a unfeatured, neutral Chinese text.
+
+Notice: This classifier assumes all input text to be written in Traditional Chinese characters. If you want to classified texts written in simplfied characters, please convert them into Traditional characters first. We recommend using [OpenCC](https://github.com/BYVoid/OpenCC) to do the conversion.
 
 ## How to use
 
