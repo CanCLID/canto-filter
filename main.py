@@ -5,7 +5,7 @@ from typing import List, Tuple
 canto_unique = re.compile(
     r'[嘅嗰啲咗佢喺咁噉冇啩哋畀嚟諗乜嘢閪撚𨳍瞓睇㗎餸𨋢摷喎嚿噃嚡嘥嗮啱揾]|唔[係得會好識使洗駛]|點[樣會做得]|[琴尋]日|[而依]家|[真就]係|屋企|邊[度個]')
 mando_unique = re.compile(r'[這哪您們唄咱啥甭]|還[是好有]')
-mando_feature = re.compile(r'[那是的他她吧沒不在麼么些了卻説說]|而已|')
+mando_feature = re.compile(r'[那是的他她吧沒不在麼么些了卻説說]|而已')
 mando_loan = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦那|印第安那|那不勒斯|支那|' +
                         r'是日|是次|是非|利是|唯命是從|頭頭是道|似是而非|自以為是|俯拾皆是|撩是鬥非|莫衷一是|是但|是旦|大吉利是|' +
                         r'目的|紅的|綠的|藍的|的士|波羅的海|的確|眾矢之的|' +
@@ -28,10 +28,10 @@ def is_within_loan_span(feature_span: str, loan_spans: List[Tuple]) -> bool:
     return False
 
 
-def is_all_loan(string: str) -> bool:
+def is_all_loan(s: str) -> bool:
     # 判斷一句話入面所有官話特徵係唔係都係借詞
-    mando_features = mando_feature.finditer(string)
-    mando_loans = mando_loan.finditer(string)
+    mando_features = mando_feature.finditer(s)
+    mando_loans = mando_loan.finditer(s)
     feature_spans = [m.span() for m in mando_features]
     loan_spans = [m.span() for m in mando_loans]
 
@@ -42,10 +42,10 @@ def is_all_loan(string: str) -> bool:
     return True
 
 
-def judge(string: str) -> str:
-    has_canto_unique = bool(re.search(canto_unique, string))
-    has_mando_unique = bool(re.search(mando_unique, string))
-    has_mando_feature = bool(re.search(mando_feature, string))
+def judge(s: str) -> str:
+    has_canto_unique = bool(re.search(canto_unique, s))
+    has_mando_unique = bool(re.search(mando_unique, s))
+    has_mando_feature = bool(re.search(mando_feature, s))
 
     if has_canto_unique:
         # 含有粵語成分
@@ -57,7 +57,7 @@ def judge(string: str) -> str:
             return "mixed"
         else:
             # 含有官話成分，冇官話專屬詞，有可能官話借詞，亦都算粵語
-            if is_all_loan(string):
+            if is_all_loan(s):
                 return "cantonese"
             else:
                 return "mixed"
@@ -66,7 +66,7 @@ def judge(string: str) -> str:
         return "mandarin"
     elif has_mando_feature:
         # 有官話特徵但係要判斷係唔係全部都係借詞
-        if is_all_loan(string):
+        if is_all_loan(s):
             # 全部都係借詞，唔算官話
             return "neutral"
         else:
@@ -82,10 +82,10 @@ if __name__ == '__main__':
     argparser.add_argument('--input', type=str, default='input.txt')
     args = argparser.parse_args()
 
-    lines = open(args.input, encoding="utf-8").readlines()
     output = open('output.tsv', 'w', encoding="utf-8")
 
-    for line in lines:
-        output.write('{}\t{}\n'.format(judge(line.strip()), line.strip()))
+    with open(args.input, encoding='utf-8') as f:
+        for line in f:
+            output.write('{}\t{}\n'.format(judge(line.strip()), line.strip()))
 
     output.close()
