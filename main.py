@@ -3,7 +3,9 @@ import re
 from typing import List, Tuple
 
 canto_unique = re.compile(
-    r'[嘅嗰啲咗佢喺咁噉冇啩哋畀嚟諗乜嘢閪撚𨳍瞓睇㗎餸𨋢摷喎嚿噃嚡嘥嗮啱揾]|唔[係得會好識使洗駛]|點[樣會做得]|[琴尋]日|[而依]家|[真就]係|屋企|邊[度個]')
+    r'[嘅嗰啲咗佢喺咁噉冇啩哋畀嚟諗乜嘢閪撚𨳍瞓睇㗎餸𨋢摷喎嚿噃嚡嘥嗮啱揾喐逳]|' +
+    r'唔[係得會好識使洗駛通知到去走]|點[樣會做得]|[琴尋]日|[而依]家|[真就]係|邊[度個]|' +
+    r'屋企|收皮|邊科')
 mando_unique = re.compile(r'[這哪您們唄咱啥甭]|還[是好有]')
 mando_feature = re.compile(r'[那是的他她吧沒不在麼么些了卻説說]|而已')
 mando_loan = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦那|印第安那|那不勒斯|支那|' +
@@ -86,6 +88,8 @@ if __name__ == '__main__':
 
     with open(args.input, encoding='utf-8') as f:
         for line in f:
-            output.write('{}\t{}\n'.format(judge(line.strip()), line.strip()))
+            l = line.strip()
+            judgement = judge(l)
+            output.write('{}\t{}\n'.format(judgement, l))
 
     output.close()
