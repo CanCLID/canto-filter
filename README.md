@@ -1,6 +1,9 @@
 # 粵文分類器
 
+[![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/DAVFoundation/captain-n3m0/blob/master/LICENSE)
+
 [English](https://github.com/CanCLID/cantonese-classifier#cantonese-text-classifier)
+
 
 呢個係個粵文分類器，用嚟區分粵語同官話文本，對於篩選粵語語料好有用。個分類器會將輸入文本分成四類:
 
