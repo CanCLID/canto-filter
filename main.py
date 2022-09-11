@@ -60,8 +60,10 @@ def judge(s: str) -> str:
         else:
             # 含有官話成分，冇官話專屬詞，有可能官話借詞，亦都算粵語
             if is_all_loan(s):
+                # 所有官話特色都係借詞，所以仲係算粵語
                 return "cantonese"
             else:
+                # 有官話特色字唔係借詞，所以係官話溝粵語
                 return "mixed"
     elif has_mando_unique:
         # 冇粵語成分
@@ -80,7 +82,8 @@ def judge(s: str) -> str:
 
 
 if __name__ == '__main__':
-    argparser = argparse.ArgumentParser(description='')
+    argparser = argparse.ArgumentParser(
+        description='Specify input text file with `--input <INPUT.txt>`, where each line is a sentence. ')
     argparser.add_argument('--input', type=str, default='input.txt')
     args = argparser.parse_args()
 
