@@ -22,7 +22,7 @@ mando_loan = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦�
                         r'[遊游小傳解學假淺眾衆][説說]|[說說][話服明]|自圓其[説說]|長話短[說説]|不由分[說説]')
 
 
-def is_within_loan_span(feature_span: str, loan_spans: List[Tuple]) -> bool:
+def is_within_loan_span(feature_span: Tuple[int, int], loan_spans: List[Tuple[int, int]]) -> bool:
     # 判斷一個官話特徵係唔係借詞。如果佢嘅位置喺某個借詞區間，就係借詞
     for loan_span in loan_spans:
         if feature_span[0] >= loan_span[0] and feature_span[1] <= loan_span[1]:
