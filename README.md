@@ -4,6 +4,8 @@
 
 [English](https://github.com/CanCLID/cantonese-classifier#cantonese-text-classifier)
 
+## 簡介
+
 呢個係個粵文分類器，用嚟區分粵語同官話文本，對於篩選粵語語料好有用。個分類器會將輸入文本分成四類:
 
 1. `cantonese`: 純粵文，僅含有粵語特徵字詞，例如“你喺邊度”
@@ -17,6 +19,8 @@
 
 ## 用法
 
+### 文件輸出
+
 首先要有一個輸入文檔，例如`input.txt`，入面每一行係一個句子，然後運行下面命令
 
 ```bash
@@ -24,6 +28,23 @@ python3 main.py --input <INPUT.TXT>
 ```
 
 輸出係一個 `output.tsv`，入面有分成兩列，第一列係判斷標籤，第二列係句子原文本。
+
+### 單句判斷
+
+```python
+from canto-filter import judge
+
+print(judge('你喺邊度'))
+print(judge('你在哪裏'))
+print(judge('是咁的'))
+print(judge('去學校讀書'))
+```
+
+### 篩出某類別句子
+
+```
+
+```
 
 # Cantonese text classifier
 
