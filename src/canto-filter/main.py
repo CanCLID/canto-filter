@@ -1,3 +1,6 @@
+'''
+
+'''
 import argparse
 import re
 import sys
@@ -9,14 +12,13 @@ canto_unique = re.compile(
     r'[嚇凍冷攝整揩逢淥浸激][親嚫]|[橫搞打傾諗攞通得唔拆]掂|仲[有係話要得好衰唔]|' +
     r'屋企|收皮')
 mando_unique = re.compile(r'[這哪您們唄咱啥甭]|還[是好有]')
-mando_feature = re.compile(r'[那是的他她吧沒不在麼么些了卻説說吃]|而已')
+mando_feature = re.compile(r'[那是的他她吧沒在麼么些了卻説說吃]|而已')
 mando_loan = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦那|印第安那|那不勒斯|支那|' +
-                        r'是[否日次非但旦]|利是|唯命是從|頭頭是道|似是而非|自以為是|俯拾皆是|撩是鬥非|莫衷一是|大吉利是|' +
+                        r'是[否日次非但旦]|利是|唯命是從|頭頭是道|似是而非|自以為是|俯拾皆是|撩是鬥非|莫衷一是|' +
                         r'[目綠藍紅]的|的[士確]|波羅的海|眾矢之的|的而且確|' +
                         r'些[微少許小]|' +
                         r'[淹沉浸覆湮埋沒出]沒|沒[落收]|神出鬼沒|' +
-                        r'了[結無斷當然哥結得]|[未明]了|不了了之|不得了|大不了|' +
-                        r'不[過滿如妨俗宜必死利當足絕一斷良同僅忠妙果]|迫不及待|意想不到|不外乎|風馬牛不相及|' +
+                        r'了[結無斷當然哥結得解]|[未明]了|不了了之|不得了|大不了|' +
                         r'他[信人國日殺鄉]|[其利無排維]他|馬耳他|他加祿|他山之石|' +
                         r'在[場世讀於位編此]|[實存旨志好所自潛]在|無處不在|大有人在|' +
                         r'[酒網水貼]吧|吧台|' +
@@ -34,7 +36,7 @@ def is_within_loan_span(feature_span: Tuple[int, int], loan_spans: List[Tuple[in
         feature_span (Tuple[int, int]): 官話特徵嘅位置  Mandarin feature position
         loan_spans (List[Tuple[int, int]]): 借詞嘅位置  Loan word positions
     Returns:
-        bool: 係唔係官話借詞 Is a Mandarin loan word or not
+        bool: 係唔係官話借詞 Whether the input feature is a Mandarin loan word
     '''
 
     for loan_span in loan_spans:
@@ -65,6 +67,11 @@ def judge(s: str) -> str:
     '''
     判斷一句話係粵語、官話、官話溝粵語定係中性
     Judge whether a sentence is Cantonese, Mandarin, mixed-Mandarin-Cantonese, or neutral.
+    
+    Args:
+        s (str): 一句話  A sentence
+    Returns:
+        str: 粵語、官話、官話溝粵語定係中性 `cantonese`, `mandarin`, `mixed`, or `neutral`.
     '''
     has_canto_unique = bool(re.search(canto_unique, s))
     has_mando_unique = bool(re.search(mando_unique, s))
