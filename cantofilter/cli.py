@@ -19,9 +19,11 @@ def main():
             l = line.strip()
             judgement: str = judge(l)
             if args.type == 'all':
-                sys.stdout.write('{}\t{}\n'.format(judgement, l))
+                sys.stdout.write(f'{judgement}\t{l}\n')
+            elif args.type == 'label':
+                sys.stdout.write(f'{judgement}\n')
             elif args.type == judgement:
-                sys.stdout.write('{}\n'.format(l))
+                sys.stdout.write(f'{l}\n')
 
 
 if __name__ == '__main__':

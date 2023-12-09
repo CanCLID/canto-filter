@@ -19,6 +19,12 @@
 
 ## 用法
 
+首先用 pip 安裝
+
+```bash
+pip install canto-filter
+```
+
 本篩選器既可以喺 Python 代碼入面用，亦都可以直接喺命令行入面用。
 
 ### 命令行
@@ -26,7 +32,7 @@
 首先要有一個輸入文檔，例如`input.txt`，入面每一行係一個句子，然後運行下面命令
 
 ```bash
-python3 main.py --input input.txt > output.txt
+cantofilter --input input.txt > output.txt
 ```
 
 噉樣會得到一個 `output.txt`，入面有由 \t 分成嘅兩列，第一列係判斷標籤，第二列係句子原文本。
@@ -34,7 +40,7 @@ python3 main.py --input input.txt > output.txt
 如果你想直接篩選出某一類嘅文本，噉可以加一個 `--type <LABEL>` 參數喺後面，例如
 
 ```bash
-python3 main.py --input input.txt --type cantonese > output.txt
+cantofilter main.py --input input.txt --type cantonese > output.txt
 ```
 
 噉樣輸出嘅 `output.txt` 就會係純粵文句子。如果想剩係要官話、官粵混合或者中性文本，將個 `--type` 參數定成 `mandarin`、`mixed`、`neutral`就得。
@@ -65,10 +71,20 @@ Notice: This filter **assumes all input text in Traditional Chinese characters**
 
 ## How to use
 
+Install the package with pip first
+
+```bash
+pip install canto-filter
+```
+
+This package can be used in python codes, or as a CLI tool.
+
+### Use in CLI
+
 Prepare an input text file, e.g. `input.txt` where each line is a sentence. Then run
 
 ```bash
-python3 main.py --input <INPUT.TXT>
+cantofilter --input input.txt > output.txt
 ```
 
-There will be a `output.tsv` which has two columns. The first column is the classification label, and the second column is the original input text.
+There will be a `output.txt` which has two columns. The first column is the language label, and the second column is the original input text.
