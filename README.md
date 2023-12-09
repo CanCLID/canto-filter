@@ -29,6 +29,8 @@ pip install canto-filter
 
 ### 命令行
 
+#### 輸出標籤同原文
+
 首先要有一個輸入文檔，例如`input.txt`，入面每一行係一個句子，然後運行下面命令
 
 ```bash
@@ -37,6 +39,8 @@ cantofilter --input input.txt > output.txt
 
 噉樣會得到一個 `output.txt`，入面有由 \t 分成嘅兩列，第一列係判斷標籤，第二列係句子原文本。
 
+#### 僅輸出一類
+
 如果你想直接篩選出某一類嘅文本，噉可以加一個 `--type <LABEL>` 參數喺後面，例如
 
 ```bash
@@ -44,6 +48,16 @@ cantofilter main.py --input input.txt --type cantonese > output.txt
 ```
 
 噉樣輸出嘅 `output.txt` 就會係純粵文句子。如果想剩係要官話、官粵混合或者中性文本，將個 `--type` 參數定成 `mandarin`、`mixed`、`neutral`就得。
+
+#### 僅輸出標籤
+
+你亦都可以剩係輸出啲句子嘅分類結果，用 `--type label` 就得：
+
+```bash
+cantofilter main.py --input input.txt --type label > output.txt
+```
+
+噉樣嘅 `output.txt` 剩得一列，全部都係分類標籤。
 
 ### 作為 Python 函數
 
@@ -58,16 +72,16 @@ print(judge('去學校讀書'))
 
 # Cantonese text filter
 
-This is a text filter for Cantonese, a very useful tool for filtering Cantonese text corpus. It classifies input sentences with four output labels:
+This is a text filter for Cantonese, designed for filtering Cantonese text corpus. It classifies input sentences with four output labels:
 
 1. `cantonese`: Pure Cantonese text, contains Cantonese-featured words. E.g. 你喺邊度
 1. `mandarin`: Pure Mandarin text, contains Mandarin-feature words. E.g. 你在哪裏
 1. `mixed`：Mixed Cantonese-Mandarin text, contains both Cantonese and Mandarin-featured words. E.g. 是咁的
 1. `neutral`：No feature Chinese text, contains neither Cantonese nor Mandarin feature words. Such sentences can be used for both Cantonese and Mandarin text corpus. E.g. 去學校讀書
 
-The filter is rule-based, by detecting Mandarin and Cantonese feature characters and words. If a sentence contains both Cantonese and Mandarin feature words, then it is a mixed-Cantonese-Mandarin sentence. If it contains neither features, it is a no-feature, neutral Chinese text.
+The filter is regex rule-based, by detecting Mandarin and Cantonese feature characters and words. If a sentence contains both Cantonese and Mandarin feature words, then it is a mixed-Cantonese-Mandarin sentence. If it contains neither features, it is a no-feature, neutral Chinese text.
 
-Notice: This filter **assumes all input text in Traditional Chinese characters**. If you want to filter texts written in simplified characters, please convert them into Traditional characters first. We recommend using [OpenCC](https://github.com/BYVoid/OpenCC) to do the conversion.
+Note: This filter **assumes all input text in Traditional Chinese characters**. If you want to filter texts written in simplified characters, please convert them into Traditional characters first. We recommend using [OpenCC](https://github.com/BYVoid/OpenCC) to do the conversion.
 
 ## How to use
 
