@@ -1,10 +1,10 @@
 import unittest
 from cantofilter.judge import judge
 
-cantonese = ["你喺邊度"]
-mandarin = ["你在哪裏"]
-mixed = ["是咁的"]
-neutral = ["去學校讀書"]
+cantonese = ["你喺邊度","乜你今日唔使返學咩","今日好可能會嚟唔到", "我哋影張相留念"]
+mandarin = ["你在哪裏","你想插班的話"]
+mixed = ["是咁的","屋企停電的話"]
+neutral = ["去學校讀書","做人最重要開心"]
 
 
 class TestJudgeFunction(unittest.TestCase):

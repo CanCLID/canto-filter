@@ -2,6 +2,8 @@ import argparse
 import sys
 from .judge import judge
 
+sys.stdout.reconfigure(encoding='utf-8')
+
 def main():
     '''
     When used as a command line tool, specify input text file with `--input <INPUT.txt>`, and output type with `--type <TYPE>`.
