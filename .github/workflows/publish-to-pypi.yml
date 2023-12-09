@@ -1,10 +1,8 @@
 name: Publish Python Package to PyPI
 
 on:
-  push:
-    branches: [main]
-    tags:
-      - "v*"
+  release:
+    types: [published]
 
 jobs:
   build-and-publish:
@@ -19,6 +17,9 @@ jobs:
         run: |
           python -m pip install --upgrade pip
           pip install setuptools wheel twine
+      - name: Run tests
+        run: |
+          python -m unittest tests/test_judge.py
       - name: Build and publish
         env:
           TWINE_USERNAME: __token__

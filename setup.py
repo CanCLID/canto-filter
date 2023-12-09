@@ -1,4 +1,5 @@
 from setuptools import setup, find_packages
+from cantofilter import __version__
 
 # Read the contents of your README file
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -6,7 +7,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
     setup(
         name="canto-filter",
-        version="1.0.0",
+        version=__version__,
         author="CanCLID (Cantonese Computational Linguistics Infrastructure Development Workgroup)",
         author_email="support@jyutping.org",
         description="粵文分類篩選器 Cantonese text filter",
