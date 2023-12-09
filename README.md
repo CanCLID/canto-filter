@@ -1,4 +1,4 @@
-# 粵文分類器
+# 粵文分類篩選器
 
 [![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/DAVFoundation/captain-n3m0/blob/master/LICENSE)
 
@@ -6,7 +6,7 @@
 
 ## 簡介
 
-呢個係個粵文分類器，用嚟區分粵語同官話文本，對於篩選粵語語料好有用。個分類器會將輸入文本分成四類:
+呢個係個粵文篩選器，用嚟區分粵語同官話文本，對於篩選粵語語料好有用。個分類器會將輸入文本分成四類:
 
 1. `cantonese`: 純粵文，僅含有粵語特徵字詞，例如“你喺邊度”
 1. `mandarin`: 純官話文，僅含有官話特徵字詞，例如“你在哪裏”
@@ -14,6 +14,8 @@
 1. `neutral`：無特徵漢語文，唔含有官話同粵語特徵，既可以當成粵文亦可以當成官話文，例如“去學校讀書”
 
 分類方法係官話同粵語嘅特徵字詞識別。如果同時含有官話同粵語特徵詞彙就算官粵混雜，如果唔含有任何特徵，就算冇特徵中性文本。
+
+本篩選器嘅主要設計目標係「篩選出可以用作訓練數據嘅優質粵文」，而非「準確分類輸入文本」。所以喺判斷粵語/官話嗰陣會用偏嚴格嘅判別標準，即係會犧牲 recall 嚟換取高 precision （寧願篩漏粵文句子都唔好將官話文誤判成粵文）。
 
 注意：呢隻分類器**默認所有輸入文本都係傳統漢字**。如果要分類簡化字文本，要將佢哋轉化成傳統漢字先。推薦使用 [OpenCC](https://github.com/BYVoid/OpenCC)嚟轉換。
 
@@ -25,13 +27,28 @@
 pip install canto-filter
 ```
 
-本篩選器既可以喺 Python 代碼入面用，亦都可以直接喺命令行入面用。
+你可以喺 Python 代碼入面用，亦都可以直接喺命令行入面用。
 
-### 命令行
+### Python 函數用法
+
+本篩選器剩得一個函數 `judge()`，輸入一句話輸出佢嘅語言分類：
+
+```python
+from cantofilter import judge
+
+print(judge('你喺邊度')) # cantonese
+print(judge('你在哪裏')) # mandarin
+print(judge('是咁的'))  # mixed
+print(judge('去學校讀書'))  # neutral
+```
+
+### 命令行用法
+
+首先要有一個輸入文檔，例如`input.txt`，入面每行一個句子.
 
 #### 輸出標籤同原文
 
-首先要有一個輸入文檔，例如`input.txt`，入面每一行係一個句子，然後運行下面命令
+然後運行下面命令
 
 ```bash
 cantofilter --input input.txt > output.txt
@@ -59,16 +76,9 @@ cantofilter main.py --input input.txt --type label > output.txt
 
 噉樣嘅 `output.txt` 剩得一列，全部都係分類標籤。
 
-### 作為 Python 函數
+## 依賴
 
-```python
-from cantofilter import judge
-
-print(judge('你喺邊度'))
-print(judge('你在哪裏'))
-print(judge('是咁的'))
-print(judge('去學校讀書'))
-```
+Python >= 3.6
 
 # Cantonese text filter
 
@@ -93,12 +103,53 @@ pip install canto-filter
 
 This package can be used in python codes, or as a CLI tool.
 
-### Use in CLI
+### Python function usage
 
-Prepare an input text file, e.g. `input.txt` where each line is a sentence. Then run
+There is only one function in this package, `judge()`, which accepts a string input and outputs one of the labels:
+
+```python
+from cantofilter import judge
+
+print(judge('你喺邊度')) # cantonese
+print(judge('你在哪裏')) # mandarin
+print(judge('是咁的'))  # mixed
+print(judge('去學校讀書'))  # neutral
+```
+
+### CLI usage
+
+Assume an input text file, e.g. `input.txt` where each line is a sentence.
+
+#### Output both labels and original texts
+
+Then run
 
 ```bash
 cantofilter --input input.txt > output.txt
 ```
 
 There will be a `output.txt` which has two columns. The first column is the language label, and the second column is the original input text.
+
+#### Output only text of one class
+
+If you want only one type of text, use the `--type <LABEL>` argument. Say if you want pure Cantonese text only:
+
+```bash
+cantofilter --input input.txt --type cantonese > output.txt
+```
+
+The `output.txt` will contain only Cantonese text.
+
+#### Output label only
+
+If you want the classification labels, use `--type label` like this:
+
+```bash
+cantofilter main.py --input input.txt --type label > output.txt
+```
+
+Then your `output.txt` will contain only classification results of the input sentences.
+
+## Requirement
+
+Python >= 3.6
