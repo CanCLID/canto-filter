@@ -1,9 +1,7 @@
 '''
 
 '''
-import argparse
 import re
-import sys
 from typing import List, Tuple
 
 canto_unique = re.compile(
@@ -120,23 +118,4 @@ def judge(s: str) -> str:
         # 冇任何特徵，既可以當粵語亦可以當官話
         # No features, can be either Cantonese or Mandarin
         return "neutral"
-
-
-if __name__ == '__main__':
-    argparser = argparse.ArgumentParser(
-        description='Specify input text file with `--input <INPUT.txt>`, where each line is a sentence. ')
-    
-    argparser.add_argument('--input', type=str, default='input.txt', help='Specify input text file, where each line is a sentence. Default is `input.txt`.')
-    argparser.add_argument('--type', type=str, default='all', help='Specify the type of output. `all` for all sentences with a class label prepended, `cantonese` for Cantonese sentences, `mandarin` for Mandarin sentences, `mixed` for mixed Mandarin-Cantonese sentences, `neutral` for neutral sentences. Default is `all`.')
-
-    args = argparser.parse_args()
-
-    with open(args.input, encoding='utf-8') as f:
-        for line in f:
-            l = line.strip()
-            judgement: str = judge(l)
-            if args.type == 'all':
-                sys.stdout.write('{}\t{}\n'.format(judgement, l))
-            elif args.type == judgement:
-                sys.stdout.write('{}\n'.format(l))
 
