@@ -19,6 +19,16 @@
 
 注意：呢隻分類器**默認所有輸入文本都係傳統漢字**。如果要分類簡化字文本，要將佢哋轉化成傳統漢字先。推薦使用 [OpenCC](https://github.com/BYVoid/OpenCC)嚟轉換。
 
+### 引用本篩選器
+
+本工具以字詞特徵抽出「純粵文」文本嘅策略同埋實踐方式。呢個策略首先喺以下場合提出。討論本分類器時，請引用：
+
+Lau, Chaak Ming (劉擇明). 2022. Lingusitic features and automatic detection of Hong Kong-style Written Chinese and Cantonese Writing (港式書面語和粵語書寫的語言學特徵和自動辨識). Paper presented at the 26th International Conference of Yue Dialects (第二十六屆國際粵方言研討會).
+
+「粵文」同「官話文」嘅定義同界線取決於使用者嘅語言意識形態，呢度嘅分類方法以下文所描述嘅粵文書寫體作為基礎。討論本工具採取嘅分類準則，請引用：
+
+Lau, Chaak Ming. 2024. Ideologically driven divergence in Cantonese vernacular writing practices. In J.-F. Dupré, editor, _Politics of Language in Hong Kong_, Routledge.
+
 ## 用法
 
 首先用 pip 安裝
@@ -92,6 +102,16 @@ This is a text filter for Cantonese, designed for filtering Cantonese text corpu
 The filter is regex rule-based, by detecting Mandarin and Cantonese feature characters and words. If a sentence contains both Cantonese and Mandarin feature words, then it is a mixed-Cantonese-Mandarin sentence. If it contains neither features, it is a no-feature, neutral Chinese text.
 
 Note: This filter **assumes all input text in Traditional Chinese characters**. If you want to filter texts written in simplified characters, please convert them into Traditional characters first. We recommend using [OpenCC](https://github.com/BYVoid/OpenCC) to do the conversion.
+
+### Citing this package
+
+The implementation and methodology of this filter was first proposed in the following contexts. below. When discussing this filter, please cite:
+
+Lau, Chaak Ming (劉擇明). 2022. Lingusitic features and automatic detection of Hong Kong-style Written Chinese and Cantonese Writing (港式書面語和粵語書寫的語言學特徵和自動辨識). Paper presented at the 26th International Conference of Yue Dialects (第二十六屆國際粵方言研討會).
+
+The definitions and boundaries of 'Cantonese text' and 'Mandarin text' depend on the user's language ideology. The classification method used here is based on the Cantonese written style described in the following text. When discussing the criteria adopted by this tool, please cite:
+
+Lau, Chaak Ming. 2024. Ideologically driven divergence in Cantonese vernacular writing practices. In J.-F. Dupré, editor, _Politics of Language in Hong Kong_, Routledge.
 
 ## How to use
 
