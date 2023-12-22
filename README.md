@@ -15,9 +15,13 @@
 
 分類方法係官話同粵語嘅特徵字詞識別。如果同時含有官話同粵語特徵詞彙就算官粵混雜，如果唔含有任何特徵，就算冇特徵中性文本。
 
+### 設計思想同假設
+
 本篩選器嘅主要設計目標係「篩選出可以用作訓練數據嘅優質粵文」，而非「準確分類輸入文本」。所以喺判斷粵語/官話嗰陣會用偏嚴格嘅判別標準，即係會犧牲 recall 嚟換取高 precision （寧願篩漏粵文句子都唔好將官話文誤判成粵文）。
 
-注意：呢隻分類器**默認所有輸入文本都係傳統漢字**。如果要分類簡化字文本，要將佢哋轉化成傳統漢字先。推薦使用 [OpenCC](https://github.com/BYVoid/OpenCC)嚟轉換。
+本篩選器**默認所有輸入文本都用[推薦用字方案](https://jyutping.org/blog/typo/)書寫**。如果輸入文本採用其他用字方案（有錯別字），會影響分類篩選結果。例如輸入`畀本書我`分類器會輸出`cantonese`，但寫成`比本書我`會輸出`neutral`。你可以用[錯別字修正器](https://github.com/CanCLID/typo-corrector)嚟清洗被分成`neutral`嘅文本，噉樣可能會得到更多粵文。
+
+呢隻篩選器**默認所有輸入文本都係傳統漢字**。如果要分類簡化字文本，要將佢哋轉化成傳統漢字先。推薦使用 [OpenCC](https://github.com/BYVoid/OpenCC)嚟轉換。
 
 ### 引用本篩選器
 
@@ -92,6 +96,8 @@ Python >= 3.6
 
 # Cantonese text filter
 
+## Overview
+
 This is a text filter for Cantonese, designed for filtering Cantonese text corpus. It classifies input sentences with four output labels:
 
 1. `cantonese`: Pure Cantonese text, contains Cantonese-featured words. E.g. 你喺邊度
@@ -101,7 +107,13 @@ This is a text filter for Cantonese, designed for filtering Cantonese text corpu
 
 The filter is regex rule-based, by detecting Mandarin and Cantonese feature characters and words. If a sentence contains both Cantonese and Mandarin feature words, then it is a mixed-Cantonese-Mandarin sentence. If it contains neither features, it is a no-feature, neutral Chinese text.
 
-Note: This filter **assumes all input text in Traditional Chinese characters**. If you want to filter texts written in simplified characters, please convert them into Traditional characters first. We recommend using [OpenCC](https://github.com/BYVoid/OpenCC) to do the conversion.
+### Design priciples and assumptions
+
+This filter is designed for the purpose of "obtaining high-quality Cantonese text", as opposed to "accurately classifying input texts". Therefore, it maximizes precision at the price of recall, to minimize the false positive rate / avoid including potential Mandarin sentences (we rather miss some Cantonese sentences, than mistaking potential Mandarin sentences as Cantonese).
+
+This filter **assumes all input text written in [the recommended orthography](https://jyutping.org/blog/typo/)**. Spelling errors or typos in input text might affect the classification result. For instance, `畀本書我` yields `cantonese`, while `比本書我` yields `neutral`. You can use the [spelling corrector](https://github.com/CanCLID/typo-corrector) to correct the `neutral` text, which might give you more Cantonese text.
+
+This filter **assumes all input text in Traditional Chinese characters**. If you want to filter texts written in simplified characters, please convert them into Traditional characters first. We recommend using [OpenCC](https://github.com/BYVoid/OpenCC) to do the conversion.
 
 ### Citing this package
 
