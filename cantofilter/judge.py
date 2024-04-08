@@ -1,27 +1,38 @@
+"""
+Core logic:
+1. Extract the Cantonese unique words, Mandarin unique words, Mandarin feature words 
+    and Mandarin loan words in the input.
+2. Judge whether all Mandarin feature words of the input are Mandarin loan words, 
+    getting `is_all_loan`.
+3. Output the classification result based on the containment of Cantonese/Mandarin 
+    unique/feature words.
+"""
 import re
 from typing import List, Tuple
 
-canto_unique = re.compile(
+CANTO_UNIQUE = re.compile(
     r'[嘅嗰啲咗佢喺咁噉冇啩哋畀嚟諗惗乜嘢閪撚𨳍𨳊瞓睇㗎餸𨋢摷喎嚿噃嚡嘥嗮啱揾搵喐逳噏𢳂岋糴揈捹撳㩒𥄫攰癐冚孻冧𡃁嚫跣𨃩瀡氹嬲掟孭黐唞㪗埞忟𢛴]|' +
     r'唔[係得會好識使洗駛通知到去走掂該錯差]|點[樣會做得解]|[琴尋噚聽第]日|[而依]家|家[下陣]|[真就實梗又話都]係|邊[度個位科]|' +
     r'[嚇凍攝整揩逢淥浸激][親嚫]|[橫搞傾諗得唔]掂|仲[有係話要得好衰唔]|返[學工去歸]|執[好生實返輸]|' +
     r'屋企|收皮|慳錢|傾[偈計]|幫襯|求其|是[但旦]|[濕溼]碎|零舍|肉[赤緊酸]|核突|同埋|勁[秋抽]')
-mando_unique = re.compile(r'[這哪您們唄咱啥甭她]|還[是好有]')
+MANDO_UNIQUE = re.compile(r'[這哪您們唄咱啥甭她]|還[是好有]')
 # “在不” 因為太多融入粵語所以唔喺判別標準內
-mando_feature = re.compile(r'[那是的他它吧沒麼么些了卻説說吃弄]|而已')
-mando_loan = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦那|印第安那|那不勒斯|支那|' +
+MANDO_FEATURE = re.compile(r'[那是的他它看吧沒麼么些了卻説說吃弄也]|而已')
+MANDO_LOAN = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦那|印第安那|那不勒斯|支那|' +
                         r'是[否日次非但旦]|[利於]是|唯命是從|頭頭是道|似是而非|自以為是|俯拾皆是|撩是鬥非|莫衷一是|唯才是用|' +
-                        r'[目綠藍紅中]的|的[士確式]|波羅的海|眾矢之的|的而且確|大眼的度|' +
+                        r'[目綠藍紅中飛]的|的[士確式色]|波羅的海|眾矢之的|的而且確|大眼的度|' +
                         r'些[微少許小]|' +
                         r'[淹沉浸覆湮埋沒出]沒|沒[落頂收]|神出鬼沒|' +
                         r'了[結無斷當然哥結得解事之]|[未明]了|不得了|大不了|' +
                         r'他[信人國日殺鄉]|[其利無排維結]他|馬耳他|他加祿|他山之石|' +
                         r'其[它]|' +
+                        r'[收查窺觀]看|看[守住好護]|刮目相看|' +
                         r'[酒網水貼]吧|吧[台臺枱檯]|' +
                         r'[退忘阻]卻|卻步|' +
                         r'[遊游小傳解學假淺眾衆訴論][説說]|[說説][話服明]|自圓其[説說]|長話短[說説]|不由分[說説]|' +
                         r'吃[虧苦力]|' +
-                        r'弄[堂]')
+                        r'弄[堂]|[賣擺嘲]弄|' +
+                        r'可怒也|可惱也|可惱也|如也|也門|之乎者也|天助我也')
 
 
 def is_within_loan_span(feature_span: Tuple[int, int], loan_spans: List[Tuple[int, int]]) -> bool:
@@ -47,8 +58,8 @@ def is_all_loan(s: str) -> bool:
     判斷一句話入面所有官話特徵係唔係都係借詞
     Judge whether all Mandarin features in a sentence are loan words.
     '''
-    mando_features = mando_feature.finditer(s)
-    mando_loans = mando_loan.finditer(s)
+    mando_features = MANDO_FEATURE.finditer(s)
+    mando_loans = MANDO_LOAN.finditer(s)
     feature_spans = [m.span() for m in mando_features]
     loan_spans = [m.span() for m in mando_loans]
 
@@ -70,9 +81,9 @@ def judge(s: str) -> str:
     Returns:
         str: 粵語、官話、官話溝粵語定係中性 `cantonese`, `mandarin`, `mixed`, or `neutral`.
     '''
-    has_canto_unique = bool(re.search(canto_unique, s))
-    has_mando_unique = bool(re.search(mando_unique, s))
-    has_mando_feature = bool(re.search(mando_feature, s))
+    has_canto_unique = bool(re.search(CANTO_UNIQUE, s))
+    has_mando_unique = bool(re.search(MANDO_UNIQUE, s))
+    has_mando_feature = bool(re.search(MANDO_FEATURE, s))
 
     if has_canto_unique:
         # 含有粵語成分
