@@ -4,15 +4,18 @@ from .judge import judge
 
 sys.stdout.reconfigure(encoding='utf-8')
 
+
 def main():
-    '''
-    When used as a command line tool, specify input text file with `--input <INPUT.txt>`, and output type with `--type <TYPE>`.
-    '''
+    """
+    When used as a command line tool, specify input text file with `--input <INPUT.txt>`, and output mode with `--mode <MODE>`.
+    """
     argparser = argparse.ArgumentParser(
         description='Specify input text file with `--input <INPUT.txt>`, where each line is a sentence. ')
-    
-    argparser.add_argument('--input', type=str, default='input.txt', help='Specify input text file, where each line is a sentence. Default is `input.txt`.')
-    argparser.add_argument('--type', type=str, default='all', help='Specify the type of output. `all` for all sentences with a class label prepended, `cantonese` for Cantonese sentences, `mandarin` for Mandarin sentences, `mixed` for mixed Mandarin-Cantonese sentences, `neutral` for neutral sentences. Default is `all`.')
+
+    argparser.add_argument('--input', type=str, default='input.txt',
+                           help='Specify input text file, where each line is a sentence. Default is `input.txt`.')
+    argparser.add_argument('--mode', type=str, default='all',
+                           help='Specify the mode of output. `all` for all sentences with a class label prepended, `cantonese`, `mandarin`, `mixed`, `neutral` for outputing certain types of sentences only. Default is `all`.')
 
     args = argparser.parse_args()
 
@@ -20,11 +23,11 @@ def main():
         for line in f:
             l = line.strip()
             judgement: str = judge(l)
-            if args.type == 'all':
+            if args.mode == 'all':
                 sys.stdout.write(f'{judgement}\t{l}\n')
-            elif args.type == 'label':
+            elif args.mode == 'label':
                 sys.stdout.write(f'{judgement}\n')
-            elif args.type == judgement:
+            elif args.mode == judgement:
                 sys.stdout.write(f'{l}\n')
 
 
