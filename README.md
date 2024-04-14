@@ -75,7 +75,7 @@ cantofilter --input input.txt > output.txt
 如果你想直接篩選出某一類嘅文本，噉可以加一個 `--mode <LABEL>` 參數喺後面，例如
 
 ```bash
-cantofilter main.py --input input.txt --mode cantonese > output.txt
+cantofilter --input input.txt --mode cantonese > output.txt
 ```
 
 噉樣輸出嘅 `output.txt` 就會係純粵文句子。如果想剩係要官話、官粵混合或者中性文本，將個 `--mode` 參數定成 `mandarin`、`mixed`、`neutral`就得。
@@ -85,7 +85,7 @@ cantofilter main.py --input input.txt --mode cantonese > output.txt
 你亦都可以剩係輸出啲句子嘅分類結果，用 `--mode label` 就得：
 
 ```bash
-cantofilter main.py --input input.txt --model label > output.txt
+cantofilter --input input.txt --model label > output.txt
 ```
 
 噉樣嘅 `output.txt` 剩得一列，全部都係分類標籤。
@@ -177,7 +177,7 @@ The `output.txt` will contain only Cantonese text.
 If you want to include the classification labels in the output, use `--mode label` like this:
 
 ```bash
-cantofilter main.py --input input.txt --mode label > output.txt
+cantofilter --input input.txt --mode label > output.txt
 ```
 
 Then your `output.txt` will contain only classification results of the input sentences.
