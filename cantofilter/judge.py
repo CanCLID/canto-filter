@@ -7,6 +7,7 @@ Core logic:
 3. Output the classification result based on the containment of Cantonese/Mandarin 
     unique/feature words.
 """
+from enum import StrEnum, auto
 import re
 from typing import List, Tuple
 
@@ -33,6 +34,13 @@ MANDO_LOAN = re.compile(r'亞利桑那|剎那|巴塞羅那|薩那|沙那|哈瓦�
                         r'吃[虧苦力]|' +
                         r'弄[堂]|[賣擺嘲]弄|' +
                         r'可怒也|可惱也|可惱也|如也|也門|之乎者也|天助我也')
+
+
+class LanguageType(StrEnum):
+    CANTONESE = auto()
+    MANDARIN = auto()
+    MIXED = auto()
+    NEUTRAL = auto()
 
 
 def is_within_loan_span(feature_span: Tuple[int, int], loan_spans: List[Tuple[int, int]]) -> bool:
@@ -71,7 +79,7 @@ def is_all_loan(s: str) -> bool:
     return True
 
 
-def judge(s: str) -> str:
+def judge(s: str) -> LanguageType:
     '''
     判斷一句話係粵語、官話、官話溝粵語定係中性
     Judge whether a sentence is Cantonese, Mandarin, mixed-Mandarin-Cantonese, or neutral.
@@ -79,7 +87,7 @@ def judge(s: str) -> str:
     Args:
         s (str): 一句話  A sentence
     Returns:
-        str: 粵語、官話、官話溝粵語定係中性 `cantonese`, `mandarin`, `mixed`, or `neutral`.
+        LanguageType: 粵語、官話、官話溝粵語定係中性 LanguageType.CANTONESE, LanguageType.MANDARIN, LanguageType.MIXED, or LanguageType.NEUTRAL.
     '''
     has_canto_unique = bool(re.search(CANTO_UNIQUE, s))
     has_mando_unique = bool(re.search(MANDO_UNIQUE, s))
@@ -91,11 +99,11 @@ def judge(s: str) -> str:
         if not (has_mando_unique or has_mando_feature):
             # 冇官話成分，純粵語
             # No Mandarin features, pure Cantonese
-            return "cantonese"
+            return LanguageType.CANTONESE
         elif has_mando_unique:
             # 含有官話成分，有官話專屬詞，所以係官話溝粵語
             # Contain Mandarin features, has Mandarin unique words, so it is Mandarin-Cantonese mixed
-            return "mixed"
+            return LanguageType.MIXED
         else:
             # 含有官話成分，冇官話專屬詞，有可能官話借詞，亦都算粵語
             # Contain Mandarin features, no Mandarin unique words,
@@ -103,27 +111,27 @@ def judge(s: str) -> str:
             if is_all_loan(s):
                 # 所有官話特色都係借詞，所以仲係算粵語
                 # All Mandarin features are loan words, so still count as Cantonese
-                return "cantonese"
+                return LanguageType.CANTONESE
             else:
                 # 有官話特色字唔係借詞，所以係官話溝粵語
                 # Some Mandarin features are not loan words, so it is Mandarin-Cantonese mixed
-                return "mixed"
+                return LanguageType.MIXED
     elif has_mando_unique:
         # 冇粵語成分
         # No Cantonese features
-        return "mandarin"
+        return LanguageType.MANDARIN
     elif has_mando_feature:
         # 有官話特徵但係要判斷係唔係全部都係借詞
         # Has Mandarin features but need to judge whether all are loan words
         if is_all_loan(s):
             # 全部都係借詞，唔算官話
             # All are loan words, not count as Mandarin
-            return "neutral"
+            return LanguageType.NEUTRAL
         else:
             # 有特徵唔係借詞，所以算官話
             # Some features are not Mandarin loan words, so count as Mandarin
-            return "mandarin"
+            return LanguageType.MANDARIN
     else:
         # 冇任何特徵，既可以當粵語亦可以當官話
         # No features, can be either Cantonese or Mandarin
-        return "neutral"
+        return LanguageType.NEUTRAL
