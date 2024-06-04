@@ -33,6 +33,10 @@ Lau, Chaak Ming (劉擇明). 2022. Lingusitic features and automatic detection o
 
 Lau, Chaak Ming. 2024. Ideologically driven divergence in Cantonese vernacular writing practices. In J.-F. Dupré, editor, _Politics of Language in Hong Kong_, Routledge.
 
+## 依賴
+
+Python >= 3.11
+
 ## 用法
 
 首先用 pip 安裝
@@ -90,10 +94,6 @@ cantofilter --input input.txt --model label > output.txt
 
 噉樣嘅 `output.txt` 剩得一列，全部都係分類標籤。
 
-## 依賴
-
-Python >= 3.6
-
 # Cantonese text filter
 
 ## Overview
@@ -124,6 +124,10 @@ Lau, Chaak Ming (劉擇明). 2022. Lingusitic features and automatic detection o
 The definitions and boundaries of 'Cantonese text' and 'Mandarin text' depend on the user's language ideology. The classification method used here is based on the Cantonese written style described in the following text. When discussing the criteria adopted by this tool, please cite:
 
 Lau, Chaak Ming. 2024. Ideologically driven divergence in Cantonese vernacular writing practices. In J.-F. Dupré, editor, _Politics of Language in Hong Kong_, Routledge.
+
+## Requirement
+
+Python >= 3.11
 
 ## How to use
 
@@ -181,7 +185,3 @@ cantofilter --input input.txt --mode label > output.txt
 ```
 
 Then your `output.txt` will contain only classification results of the input sentences.
-
-## Requirement
-
-Python >= 3.6
