@@ -20,6 +20,10 @@ jobs:
       - name: Run tests
         run: |
           python -m unittest tests/test_judge.py
+      - name: Update version in setup.py
+        run: |
+          version=$(python -c "exec(open('cantofilter/version.py').read()); print(__version__)")
+          sed -i "s/version=.*/version='$version',/" setup.py
       - name: Build and publish
         env:
           TWINE_USERNAME: __token__

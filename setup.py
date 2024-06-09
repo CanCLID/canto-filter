@@ -1,5 +1,8 @@
 from setuptools import setup, find_packages
-from cantofilter import __version__
+# Read the version from cantofilter/version.py
+version = {}
+with open("cantofilter/version.py") as fp:
+    exec(fp.read(), version)
 
 # Read the contents of your README file
 with open("README.md", "r", encoding="utf-8") as fh:
@@ -7,7 +10,7 @@ with open("README.md", "r", encoding="utf-8") as fh:
 
     setup(
         name="canto-filter",
-        version=__version__,
+        version=version['__version__'],
         author="CanCLID (Cantonese Computational Linguistics Infrastructure Development Workgroup)",
         author_email="support@jyutping.org",
         description="粵文分類篩選器 Cantonese text filter",
