@@ -89,7 +89,7 @@ cantofilter --input input.txt --mode cantonese > output.txt
 你亦都可以剩係輸出啲句子嘅分類結果，用 `--mode label` 就得：
 
 ```bash
-cantofilter --input input.txt --model label > output.txt
+cantofilter --input input.txt --mode label > output.txt
 ```
 
 噉樣嘅 `output.txt` 剩得一列，全部都係分類標籤。
