@@ -3,3 +3,4 @@ dist/*
 canto_filter.egg-info/*
 build/
 .DS_Store
+.aider*
