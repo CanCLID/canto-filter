@@ -51,7 +51,7 @@ class LanguageType(StrEnum):
 def is_within_loan_span(feature_span: Tuple[int, int], loan_spans: Set[Tuple[int, int]]) -> bool:
     '''
     判斷一個官話特徵係唔係借詞。如果佢嘅位置喺某個借詞區間，就係借詞
-    Judge whether a Mandarin feature is a loan word. If its position is within a loan span, it is a loan.
+    Judge whether a Mandarin feature is a loan word. If its position is within any loan spans, it is a loan.
 
     Args:
         feature_span (Tuple[int, int]): 官話特徵嘅位置  Mandarin feature position
@@ -60,10 +60,7 @@ def is_within_loan_span(feature_span: Tuple[int, int], loan_spans: Set[Tuple[int
         bool: 係唔係官話借詞 Whether the input feature is a Mandarin loan word
     '''
 
-    for loan_span in loan_spans:
-        if feature_span[0] >= loan_span[0] and feature_span[1] <= loan_span[1]:
-            return True
-    return False
+    return any(feature_span[0] >= loan_span[0] and feature_span[1] <= loan_span[1] for loan_span in loan_spans)
 
 
 def is_all_loan(s: str) -> bool:
@@ -73,15 +70,12 @@ def is_all_loan(s: str) -> bool:
     '''
     mando_features = MANDO_FEATURE.finditer(s)
     mando_loans = MANDO_LOAN.finditer(s)
-    feature_spans = [m.span() for m in mando_features]
+    feature_spans = set(m.span() for m in mando_features)
     loan_spans = set(m.span() for m in mando_loans)
 
     # 如果所有官話特徵都喺借詞區間，噉就全部都係借詞
     # If all Mandarin features are within loan word spans, then all are loan words.
-    for feature_span in feature_spans:
-        if not is_within_loan_span(feature_span, loan_spans):
-            return False
-    return True
+    return all(is_within_loan_span(feature_span, loan_spans) for feature_span in feature_spans)
 
 
 def judge(s: str) -> LanguageType:
