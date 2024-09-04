@@ -50,7 +50,7 @@ class LanguageType(StrEnum):
     NEUTRAL = auto()
 
 
-def fine_canto_unique(s: str) -> bool:
+def find_canto_unique(s: str) -> bool:
     '''
     一次過揾晒所有粵語特徵會降低速度，所以揾單字先，如果有就直接當有，冇再揾特徵詞
     Regex matching all Cantonese unique features at a time will lower performance. 
@@ -102,7 +102,7 @@ def judge(s: str) -> LanguageType:
     Returns:
         LanguageType: 粵語、官話、官話溝粵語定係中性 LanguageType.CANTONESE, LanguageType.MANDARIN, LanguageType.MIXED, or LanguageType.NEUTRAL.
     '''
-    has_canto_unique = fine_canto_unique(s)
+    has_canto_unique = find_canto_unique(s)
     has_mando_unique = bool(MANDO_UNIQUE.search(s))
     has_mando_feature = bool(MANDO_FEATURE.search(s))
 
