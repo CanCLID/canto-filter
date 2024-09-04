@@ -11,12 +11,14 @@ from enum import StrEnum, auto
 import re
 from typing import Set, Tuple
 
-CANTO_UNIQUE = re.compile(
-    r'[嘅嗰啲咗佢喺咁噉冇啩哋畀嚟諗惗乜嘢閪撚𨳍𨳊瞓睇㗎餸𨋢摷喎嚿噃嚡嘥嗮啱揾搵喐逳噏𢳂岋糴揈捹撳㩒𥄫攰癐冚孻冧𡃁嚫跣𨃩瀡氹嬲掟揼揸孭黐唞㪗埞忟𢛴踎𧦠奀啫]|' +
+CANTO_UNIQUE_CHAR = re.compile(
+    r'[嘅嗰啲咗佢喺咁噉冇哋畀嚟諗惗乜嘢閪撚𨳍𨳊瞓睇餸𨋢摷嚿嚡嘥嗮啱揾搵揦喐逳噏𢳂岋糴揈捹撳㩒𥄫攰癐冚孻冧𡃁嚫跣𨃩瀡氹嬲掟揼揸孭黐唞㪗埞忟𢛴踎脷]|' +
+    r'[㗎𠺢喎噃啩𠿪啫唧嗱]')
+CANTO_UNIQUE_WORD = re.compile(
     r'唔[係得會想好識使洗駛通知到去走掂該錯差多少]|點[樣會做得解知]|[琴尋噚聽第]日|[而依]家|[真就實梗緊堅又話都但淨剩只定一]係|邊[度個位科]|' +
-    r'[嚇凍攝整揩逢淥浸激][親嚫]|[橫搞傾諗得唔好]掂|仲[有係話要得好衰唔]|返[學工去翻番到]|執[好生實返輸]|[癡痴][埋線住起身]|[同帶做整溝]埋|[剩淨坐留]低|' +
-    r'屋企|收皮|慳錢|屈機|隔籬|傾[偈計]|幫襯|求其|家陣|是[但旦]|[濕溼]碎|零舍|肉[赤緊酸]|核突|勁[秋抽]')
-MANDO_UNIQUE = re.compile(r'[這哪您們唄咱啥甭她]|還[是好有]')
+    r'[嚇凍攝整揩逢淥浸激][親嚫]|[橫搞傾得唔好]掂|仲[有係話要得好衰唔]|返[學工去翻番到]|執[好生實返輸]|[癡痴][埋線住起身]|[同帶做整溝炒煮]埋|[剩淨坐留]低|傾[偈計]|' +
+    r'屋企|收皮|慳錢|屈機|隔籬|幫襯|求其|家陣|仆街|是[但旦]|[濕溼]碎|零舍|肉[赤緊酸]|核突|[勁隻][秋抽]|[呃𧦠][鬼人稱]')
+MANDO_UNIQUE = re.compile(r'[這哪您們唄咱啥甭她]|還[是好有]|[事門塊勁花那點會]兒')
 # “在不把” 因為太多融入粵語所以唔喺判別標準內
 # Too many Cantonese loan words have 在不把, so not included in the judgment criteria
 MANDO_FEATURE = re.compile(r'[那是的他它看吧沒麼么些了卻説說吃弄也]|而已')
@@ -46,6 +48,18 @@ class LanguageType(StrEnum):
     MANDARIN = auto()
     MIXED = auto()
     NEUTRAL = auto()
+
+
+def fine_canto_unique(s: str) -> bool:
+    '''
+    一次過揾晒所有粵語特徵會降低速度，所以揾單字先，如果有就直接當有，冇再揾特徵詞
+    Regex matching all Cantonese unique features at a time will lower performance. 
+    So we first match the unique characters and then the unique words.
+    '''
+    if bool(CANTO_UNIQUE_CHAR.search(s)):
+        return True
+    else:
+        return bool(CANTO_UNIQUE_WORD.search(s))
 
 
 def is_within_loan_span(feature_span: Tuple[int, int], loan_spans: Set[Tuple[int, int]]) -> bool:
@@ -88,7 +102,7 @@ def judge(s: str) -> LanguageType:
     Returns:
         LanguageType: 粵語、官話、官話溝粵語定係中性 LanguageType.CANTONESE, LanguageType.MANDARIN, LanguageType.MIXED, or LanguageType.NEUTRAL.
     '''
-    has_canto_unique = bool(CANTO_UNIQUE.search(s))
+    has_canto_unique = fine_canto_unique(s)
     has_mando_unique = bool(MANDO_UNIQUE.search(s))
     has_mando_feature = bool(MANDO_FEATURE.search(s))
 
