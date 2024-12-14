@@ -27,11 +27,41 @@
 
 本工具以字詞特徵抽出「純粵文」文本嘅策略同埋實踐方式。呢個策略首先喺以下場合提出。討論本分類器時，請引用：
 
-Lau, Chaak Ming (劉擇明). 2022. Lingusitic features and automatic detection of Hong Kong-style Written Chinese and Cantonese Writing (港式書面語和粵語書寫的語言學特徵和自動辨識). Paper presented at the 26th International Conference of Yue Dialects (第二十六屆國際粵方言研討會).
+```bibtex
+@inproceedings{lau-etal-2024-extraction,
+    title = "The Extraction and Fine-grained Classification of Written {C}antonese Materials through Linguistic Feature Detection",
+    author = "Lau, Chaak-ming  and
+      Lau, Mingfei  and
+      To, Ann Wai Huen",
+    editor = "Ojha, Atul Kr.  and
+      Ahmadi, Sina  and
+      Cinkov{\'a}, Silvie  and
+      Fransen, Theodorus  and
+      Liu, Chao-Hong  and
+      McCrae, John P.",
+    booktitle = "Proceedings of the 2nd Workshop on Resources and Technologies for Indigenous, Endangered and Lesser-resourced Languages in Eurasia (EURALI) @ LREC-COLING 2024",
+    month = may,
+    year = "2024",
+    address = "Torino, Italia",
+    publisher = "ELRA and ICCL",
+    url = "https://aclanthology.org/2024.eurali-1.4",
+    pages = "24--29",
+    abstract = "This paper presents a linguistically-informed, non-machine-learning tool for classifying Written Cantonese, Standard Written Chinese, and the intermediate varieties used by Cantonese-speaking users from Hong Kong, which are often grouped into a single {``}Traditional Chinese{''} label. Our approach addresses the lack of textual materials for Cantonese NLP, a consequence of a lower sociolinguistic status of Written Cantonese and the interchangeable use of these varieties by users without sufficient language labeling. The tool utilizes key strings and quotation markers, which can be reduced to string operations, to effectively extract Written Cantonese sentences and documents from materials mixed with Standard Written Chinese. This allows for the flexible and efficient extraction of high-quality Cantonese data from large datasets, catering to specific classification needs. This implementation ensures that the tool can process large amounts of data at a low cost by bypassing model-inferencing, which is particularly significant for marginalized languages. The tool also aims to provide a baseline measure for future classification systems, and the approach may be applicable to other low-resource regional or diglossic languages.",
+}
+```
 
 「粵文」同「官話文」嘅定義同界線取決於使用者嘅語言意識形態，呢度嘅分類方法以下文所描述嘅粵文書寫體作為基礎。討論本工具採取嘅分類準則，請引用：
 
-Lau, Chaak Ming. 2024. Ideologically driven divergence in Cantonese vernacular writing practices. In J.-F. Dupré, editor, _Politics of Language in Hong Kong_, Routledge.
+```bibtex
+@incollection{lau2024ideologically,
+  title={Ideologically driven divergence in Cantonese vernacular writing practices},
+  author={Lau, Chaak Ming},
+  booktitle={The Politics of Language in Hong Kong},
+  pages={19--42},
+  year={2024},
+  publisher={Routledge}
+}
+```
 
 ## 依賴
 
@@ -119,11 +149,41 @@ This filter **assumes all input text in Traditional Chinese characters**. If you
 
 The implementation and methodology of this filter was first proposed in the following contexts. below. When discussing this filter, please cite:
 
-Lau, Chaak Ming (劉擇明). 2022. Lingusitic features and automatic detection of Hong Kong-style Written Chinese and Cantonese Writing (港式書面語和粵語書寫的語言學特徵和自動辨識). Paper presented at the 26th International Conference of Yue Dialects (第二十六屆國際粵方言研討會).
+```bibtex
+@inproceedings{lau-etal-2024-extraction,
+    title = "The Extraction and Fine-grained Classification of Written {C}antonese Materials through Linguistic Feature Detection",
+    author = "Lau, Chaak-ming  and
+      Lau, Mingfei  and
+      To, Ann Wai Huen",
+    editor = "Ojha, Atul Kr.  and
+      Ahmadi, Sina  and
+      Cinkov{\'a}, Silvie  and
+      Fransen, Theodorus  and
+      Liu, Chao-Hong  and
+      McCrae, John P.",
+    booktitle = "Proceedings of the 2nd Workshop on Resources and Technologies for Indigenous, Endangered and Lesser-resourced Languages in Eurasia (EURALI) @ LREC-COLING 2024",
+    month = may,
+    year = "2024",
+    address = "Torino, Italia",
+    publisher = "ELRA and ICCL",
+    url = "https://aclanthology.org/2024.eurali-1.4",
+    pages = "24--29",
+    abstract = "This paper presents a linguistically-informed, non-machine-learning tool for classifying Written Cantonese, Standard Written Chinese, and the intermediate varieties used by Cantonese-speaking users from Hong Kong, which are often grouped into a single {``}Traditional Chinese{''} label. Our approach addresses the lack of textual materials for Cantonese NLP, a consequence of a lower sociolinguistic status of Written Cantonese and the interchangeable use of these varieties by users without sufficient language labeling. The tool utilizes key strings and quotation markers, which can be reduced to string operations, to effectively extract Written Cantonese sentences and documents from materials mixed with Standard Written Chinese. This allows for the flexible and efficient extraction of high-quality Cantonese data from large datasets, catering to specific classification needs. This implementation ensures that the tool can process large amounts of data at a low cost by bypassing model-inferencing, which is particularly significant for marginalized languages. The tool also aims to provide a baseline measure for future classification systems, and the approach may be applicable to other low-resource regional or diglossic languages.",
+}
+```
 
 The definitions and boundaries of 'Cantonese text' and 'Mandarin text' depend on the user's language ideology. The classification method used here is based on the Cantonese written style described in the following text. When discussing the criteria adopted by this tool, please cite:
 
-Lau, Chaak Ming. 2024. Ideologically driven divergence in Cantonese vernacular writing practices. In J.-F. Dupré, editor, _Politics of Language in Hong Kong_, Routledge.
+```bibtex
+@incollection{lau2024ideologically,
+  title={Ideologically driven divergence in Cantonese vernacular writing practices},
+  author={Lau, Chaak Ming},
+  booktitle={The Politics of Language in Hong Kong},
+  pages={19--42},
+  year={2024},
+  publisher={Routledge}
+}
+```
 
 ## Requirement
 
