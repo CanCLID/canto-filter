@@ -15,6 +15,8 @@
 
 分類方法係官話同粵語嘅特徵字詞識別。如果同時含有官話同粵語特徵詞彙就算官粵混雜，如果唔含有任何特徵，就算冇特徵中性文本。
 
+本分類器為咗照顧性能，淨係用咗簡單嘅邏輯判斷，所以會犧牲一定嘅分類召回率（recall）。如果想要更高嘅分類準確率，請使用本工作組嘅 [`cantonesedetect`](https://pypi.org/project/cantonesedetect/) 包。`cantonesedetect` 會計算各個類別嘅分佈比例再綜合判別，而且可以精細到 6 個類別輸出，準確度更高，但係速度亦會更慢。
+
 ### 設計思想同假設
 
 本篩選器嘅主要設計目標係「篩選出可以用作訓練數據嘅優質粵文」，而非「準確分類輸入文本」。所以喺判斷粵語/官話嗰陣會用偏嚴格嘅判別標準，即係會犧牲 recall 嚟換取高 precision （寧願篩漏粵文句子都唔好將官話文誤判成粵文）。
@@ -136,6 +138,8 @@ This is a text filter for Cantonese, designed for filtering Cantonese text corpu
 1. `neutral`：No feature Chinese text, contains neither Cantonese nor Mandarin feature words. Such sentences can be used for both Cantonese and Mandarin text corpus. E.g. 去學校讀書
 
 The filter is regex rule-based, by detecting Mandarin and Cantonese feature characters and words. If a sentence contains both Cantonese and Mandarin feature words, then it is a mixed-Cantonese-Mandarin sentence. If it contains neither features, it is a no-feature, neutral Chinese text.
+
+This package uses simple if-else logic to classify input sentences for better performance, at the price of lower recalls. If you want more accurate classification sacrificing performance, please use our another package [`cantonesedetect`](https://pypi.org/project/cantonesedetect/). `cantonesedetect` uses calculates the proportions linguistic features and classify the input sentence based on the aggregated number. It can achieve more fine-grained classification with 6 output labels.
 
 ### Design priciples and assumptions
 
