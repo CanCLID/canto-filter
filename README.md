@@ -2,7 +2,7 @@
 
 [![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/DAVFoundation/captain-n3m0/blob/master/LICENSE)
 
-[English](https://github.com/CanCLID/cantonese-classifier#cantonese-text-classifier)
+[English](https://github.com/CanCLID/canto-filter#cantonese-text-filter)
 
 ## 簡介
 
