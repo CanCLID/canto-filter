@@ -1,6 +1,7 @@
 # 粵文分類篩選器
 
 [![license](https://img.shields.io/github/license/DAVFoundation/captain-n3m0.svg?style=flat-square)](https://github.com/DAVFoundation/captain-n3m0/blob/master/LICENSE)
+[![Publish to PyPI](https://github.com/CanCLID/canto-filter/actions/workflows/publish-to-pypi.yml/badge.svg)](https://github.com/CanCLID/canto-filter/actions/workflows/publish-to-pypi.yml)
 
 [English](https://github.com/CanCLID/canto-filter#cantonese-text-filter)
 
